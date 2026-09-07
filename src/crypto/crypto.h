@@ -1,18 +1,35 @@
 #pragma once
 #include <array>
+#include <cstddef>
+#include <span>
 #include <string>
 
+namespace AeCrypto {
 // Hash , 256 bits = 32 octets
 using Hash256 = std::array<std::uint8_t, 32>;
 
-namespace AeCrypto {
+/*
+SHA256 hash some bytes
+    @param data bytes to hash
+*/
+[[nodiscard]] Hash256 sha256(std::span<const std::byte> data);
 
 /*
-Hashes a char to its Sha256 byte array
+Double SHA256 hash some bytes
+    @param data bytes to double hash
 */
-[[nodiscard]] Hash256 sha256(char ch);
+[[nodiscard]] Hash256 sha256d(std::span<const std::byte> data);
+
 /*
-Print a Sha256 hash
+SA256 hash a string
+    @param text text to hash
 */
-void printHash256(Hash256 hs);
+[[nodiscard]] Hash256 sha256(std::string_view text);
+
+/*
+Optimized convert of a SHA256 hash to a string
+    @param hs Hash to convert in ex
+
+*/
+[[nodiscard]] std::string to_hex(const Hash256 &hs);
 } // namespace AeCrypto
